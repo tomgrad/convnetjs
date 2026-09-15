@@ -14,8 +14,9 @@ Build with `make` at the repo root. Requires only `node`/`npx`; it concatenates 
 - `build/deepqlearn.js`, `build/util.js`, `build/vis.js` are separate hand-maintained files, not produced by the build.
 
 ## Tests
-No CLI test runner, no `package.json`, no npm scripts. Jasmine 2.0.0 runs in a browser only:
-open `test/jasmine/SpecRunner.html` (after building). Specs include an analytic-vs-numeric gradient check, so a broken backprop fails loudly.
+Headless (Node >= 18): `npm test` (runs `make` first) or `make && node --test test/node/`. Run one file with `node --test test/node/<name>.test.js`.
+
+Browser Jasmine 2.0.0 remains at `test/jasmine/SpecRunner.html` (open after building). The Node suite covers trainers/layers/serialization; the Jasmine spec contains the analytic-vs-numeric gradient check.
 
 ## Layout
 - `src/convnet_net.js` — `Net.makeLayers` desugars `layer_defs`: activations become their own layers, `softmax`/`svm`/`regression` implicitly add an `fc` layer, and `drop_prob` inserts a dropout layer. `net.layers.length` is therefore larger than the input defs.

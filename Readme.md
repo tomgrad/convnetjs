@@ -104,6 +104,17 @@ See the **releases** page for this project to get the minified, compiled library
 If you would like to add features to the library, you will have to change the code in `src/` and then compile the library into the `build/` directory. The compilation script simply concatenates files in `src/` and then minifies the result.
 
 Run `make` from the repository root. It requires only `node`/`npx`: it concatenates the source files in `src/` (in the order listed in the `Makefile`) into `build/convnet.js`, then minifies the result into `build/convnet-min.js` with [esbuild](https://esbuild.github.io/). `make clean` removes both outputs.
+
+## Testing
+Requires Node 18+. Build first, then run the headless suite:
+
+    $ npm test
+
+or, without npm:
+
+    $ make && node --test test/node/
+
+A browser-based Jasmine suite (including a numerical gradient check) lives at `test/jasmine/SpecRunner.html`.
 ## Use in Node
 The library is also available on *node.js*:
 
