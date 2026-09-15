@@ -221,7 +221,7 @@
       this.out_sy = json.out_sy;
       this.layer_type = json.layer_type; 
       this.group_size = json.group_size;
-      this.switches = global.zeros(this.group_size);
+      this.switches = global.zeros(this.out_sx*this.out_sy*this.out_depth);
     }
   }
 
