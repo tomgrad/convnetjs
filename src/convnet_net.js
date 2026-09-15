@@ -18,6 +18,16 @@
       assert(defs.length >= 2, 'Error! At least one input layer and one loss layer are required.');
       assert(defs[0].type === 'input', 'Error! First layer must be the input layer, to declare size of inputs');
 
+      // work on copies so we never mutate the caller's layer definitions
+      var cloned_defs = [];
+      for(var di=0;di<defs.length;di++) {
+        var src = defs[di];
+        var copy = {};
+        for(var key in src) { copy[key] = src[key]; }
+        cloned_defs.push(copy);
+      }
+      defs = cloned_defs;
+
       // desugar layer_defs for adding activation, dropout layers etc
       var desugar = function() {
         var new_defs = [];
