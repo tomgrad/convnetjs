@@ -20,6 +20,7 @@
     this.beta2 = typeof options.beta2 !== 'undefined' ? options.beta2 : 0.999; // used in adam
 
     this.k = 0; // iteration counter
+    this.update_count = 0; // number of weight updates actually applied (batch counter)
     this.gsum = []; // last iteration gradients (used for momentum calculations)
     this.xsum = []; // used in adam or adadelta
 
@@ -50,6 +51,7 @@
       
       this.k++;
       if(this.k % this.batch_size === 0) {
+        this.update_count++;
 
         var pglist = this.net.getParamsAndGrads();
 
@@ -96,8 +98,8 @@
               // adam update
               gsumi[j] = gsumi[j] * this.beta1 + (1- this.beta1) * gij; // update biased first moment estimate
               xsumi[j] = xsumi[j] * this.beta2 + (1-this.beta2) * gij * gij; // update biased second moment estimate
-              var biasCorr1 = gsumi[j] * (1 - Math.pow(this.beta1, this.k)); // correct bias first moment estimate
-              var biasCorr2 = xsumi[j] * (1 - Math.pow(this.beta2, this.k)); // correct bias second moment estimate
+              var biasCorr1 = gsumi[j] / (1 - Math.pow(this.beta1, this.update_count)); // correct bias first moment estimate
+              var biasCorr2 = xsumi[j] / (1 - Math.pow(this.beta2, this.update_count)); // correct bias second moment estimate
               var dx =  - this.learning_rate * biasCorr1 / (Math.sqrt(biasCorr2) + this.eps);
               p[j] += dx;
             } else if(this.method === 'adagrad') {
