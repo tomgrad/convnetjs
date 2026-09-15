@@ -26,5 +26,5 @@ Browser Jasmine 2.0.0 remains at `test/jasmine/SpecRunner.html` (open after buil
 - Data is always 3D `Vol` (`sx`,`sy`,`depth`); non-image inputs use `out_sx=out_sy=1`.
 
 ## Notes
-- The README's `npm install convnetjs` instructions are stale (upstream is unmaintained); there is no package manifest here.
+- The README's `npm install convnetjs` instructions are stale (upstream is unmaintained); the local `package.json` exists only for building and testing, not for publishing.
 - Files use the `(function(global){ "use strict"; ... })(convnetjs)` IIFE pattern and attach classes to the shared global.

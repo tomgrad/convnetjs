@@ -6,7 +6,7 @@
   "main": "build/convnet.js",
   "scripts": {
     "build": "make",
-    "pretest": "make",
+    "pretest": "make build/convnet.js",
     "test": "node --test test/node/"
   },
   "engines": { "node": ">=18" },

@@ -744,9 +744,9 @@ No behavior change. Removes dead code and lint noise.
 
 - [ ] **Step 1: Remove unused `Vol` locals**
 
-Delete the `var Vol = global.Vol; // convenience` line from each file where `Vol` is never referenced: `src/convnet_net.js` (line 3), `src/convnet_trainers.js` (line 3), `src/convnet_layers_input.js` (line 4), `src/convnet_layers_loss.js` (line 3), `src/convnet_layers_dropout.js` (line 3), `src/convnet_layers_normalization.js` (line 3).
+Delete the `var Vol = global.Vol; // convenience` line from each file where `Vol` is never referenced: `src/convnet_net.js` (line 3), `src/convnet_trainers.js` (line 3), `src/convnet_layers_input.js` (line 4), `src/convnet_layers_dropout.js` (line 3), `src/convnet_layers_normalization.js` (line 3).
 
-Do **not** remove it from `convnet_vol_util.js`, `convnet_layers_dotproducts.js`, `convnet_layers_pool.js`, or `convnet_layers_nonlinearities.js` — those use `Vol`.
+Do **not** remove it from `convnet_vol_util.js`, `convnet_layers_dotproducts.js`, `convnet_layers_pool.js`, or `convnet_layers_nonlinearities.js` — those use `Vol`. Also do **not** remove it from `src/convnet_layers_loss.js`: `Vol` IS used there (`SoftmaxLayer.forward` constructs `new Vol(...)`), so its declaration must stay.
 
 - [ ] **Step 2: Stop shadowing the `opt` parameter**
 
@@ -946,8 +946,8 @@ git commit -m "fix: return an empty prediction instead of throwing in MagicNet.p
 - [ ] Run the complete headless suite from a clean build: `make clean && make && node --test test/node/` — expect all tests pass, `# fail 0`.
 - [ ] Confirm the Node entrypoint: `node -e "const c=require('./build/convnet.js'); console.log(typeof c.Net, typeof c.Vol)"` — expect `function function`.
 - [ ] Open `test/jasmine/SpecRunner.html` in a browser and confirm the existing gradient check still passes (manual; requires `build/convnet.js`).
-- [ ] Confirm `src/` contains no ES6 syntax: `git grep -nE "\b(let|const|class)\b|=>|Math\.tanh|Object\.assign" -- src/` prints nothing.
-- [ ] Confirm no leftover shadowed params: `git grep -n "var opt = opt"` prints nothing.
+- [ ] Confirm `src/` contains no ES6 syntax: `git grep -nE "^\s*(let|const|class)\s|=>|Math\.tanh|Object\.assign" -- src/` prints nothing.
+- [ ] Confirm no leftover shadowed params: `git grep -n "var opt = opt" -- src/` prints nothing.
 
 ---
 

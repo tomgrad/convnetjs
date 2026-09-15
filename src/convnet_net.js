@@ -22,7 +22,11 @@
       for(var di=0;di<defs.length;di++) {
         var src = defs[di];
         var copy = {};
-        for(var key in src) { copy[key] = src[key]; }
+        var keys = Object.keys(src);
+        for(var ki=0;ki<keys.length;ki++) {
+          var key = keys[ki];
+          copy[key] = src[key];
+        }
         cloned_defs.push(copy);
       }
       defs = cloned_defs;

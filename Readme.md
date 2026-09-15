@@ -115,6 +115,7 @@ or, without npm:
     $ make && node --test test/node/
 
 A browser-based Jasmine suite (including a numerical gradient check) lives at `test/jasmine/SpecRunner.html`.
+
 ## Use in Node
 The library is also available on *node.js*:
 
