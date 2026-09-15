@@ -1,3 +1,4 @@
 build/convnet.js
 build/convnet-min.js
 node_modules/
+demo/mnist
