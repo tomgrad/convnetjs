@@ -19,7 +19,7 @@ Modernize the ConvNetJS source and build: convert `src/` from concatenated globa
 ## Global constraints
 
 - **Behavior-preserving.** Forward/backward outputs, gradients, serialization format, `layer_type` strings, and the `getParamsAndGrads` contract must be byte-for-byte identical to the current implementation for the same inputs and weights.
-- **API-preserving.** The global `convnetjs` object must expose the same 29 names it does today, so demos and the hand-maintained `build/deepqlearn.js`, `build/util.js`, `build/vis.js` keep working unchanged.
+- **API-preserving.** The global `convnetjs` object must expose the same 31 public names plus `REVISION` it does today, so demos and the hand-maintained `build/deepqlearn.js`, `build/util.js`, `build/vis.js` keep working unchanged.
 - **Demos unchanged.** Demo HTML continues to use `<script src="../build/convnet.js">` and the global `convnetjs`; no `<script type="module">` migration.
 - **No new runtime dependencies.** esbuild is a devDependency only.
 - **Node >= 18** for building and testing.

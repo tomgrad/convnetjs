@@ -9,6 +9,16 @@ test('the IIFE build exposes the global convnetjs object', () => {
   vm.createContext(sandbox);
   vm.runInContext(code, sandbox);
   assert.strictEqual(typeof sandbox.convnetjs, 'object');
-  assert.strictEqual(typeof sandbox.convnetjs.Net, 'function');
-  assert.strictEqual(typeof sandbox.convnetjs.randf, 'function');
+
+  const names = ['Net', 'Vol', 'Trainer', 'SGDTrainer', 'MagicNet', 'augment',
+    'img_to_vol', 'ConvLayer', 'FullyConnLayer', 'PoolLayer', 'InputLayer',
+    'RegressionLayer', 'SoftmaxLayer', 'SVMLayer', 'TanhLayer', 'MaxoutLayer',
+    'ReluLayer', 'SigmoidLayer', 'DropoutLayer',
+    'LocalResponseNormalizationLayer', 'randf', 'randi', 'randn', 'zeros',
+    'maxmin', 'randperm', 'weightedSample', 'arrUnique', 'arrContains',
+    'getopt', 'assert'];
+  for (const name of names) {
+    assert.ok(sandbox.convnetjs[name] !== undefined, 'missing public export: ' + name);
+  }
+  assert.strictEqual(sandbox.convnetjs.REVISION, 'ALPHA');
 });

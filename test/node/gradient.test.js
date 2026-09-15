@@ -1,4 +1,3 @@
-'use strict';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import convnetjs from '../../build/convnet.cjs';
@@ -31,11 +30,12 @@ function worstRelativeGradientError(makeNet, makeX, label) {
     { learning_rate: 0.0001, momentum: 0.0, batch_size: 1, l2_decay: 0.0 });
   const x = makeX();
   trainer.train(x, label);
+  const analyticGrads = Array.from(x.dw);
 
   const delta = 1e-6;
   let worst = 0;
   for (let i = 0; i < x.w.length; i++) {
-    const analytic = x.dw[i];
+    const analytic = analyticGrads[i];
     const old = x.w[i];
     x.w[i] = old + delta; const c0 = net.getCostLoss(x, label);
     x.w[i] = old - delta; const c1 = net.getCostLoss(x, label);

@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - **Behavior-preserving.** Forward/backward outputs, gradients, loss values, `layer_type` strings, serialization shape, and the `getParamsAndGrads` contract must be identical for identical inputs/weights. Do not change numeric formulas or index arithmetic.
-- **API-preserving.** The global `convnetjs` object must expose all 29 names listed in Task 3. Demos and `build/deepqlearn.js|util.js|vis.js` must keep working unchanged.
+- **API-preserving.** The global `convnetjs` object must expose all 31 public names plus `REVISION` listed in Task 3. Demos and `build/deepqlearn.js|util.js|vis.js` must keep working unchanged.
 - **Demos unchanged.** Classic `<script src="../build/convnet.js">` and global `convnetjs`. No `<script type="module">`.
 - **No runtime dependencies.** `esbuild` is a devDependency only.
 - **Node >= 18.**
@@ -726,10 +726,12 @@ git commit -m "docs: update build and test instructions for the esbuild workflow
 - [ ] **Step 1: Clean build from scratch**
 
 ```bash
-rm -rf build node_modules
+rm -f build/convnet.js build/convnet.cjs build/convnet-min.js && rm -rf node_modules
 npm install
 npm run build
 ```
+
+Note: `build/deepqlearn.js`, `build/util.js`, and `build/vis.js` are tracked hand-maintained files and must not be deleted.
 
 Expected: no errors; `build/convnet.js`, `build/convnet.cjs`, `build/convnet-min.js` exist.
 
