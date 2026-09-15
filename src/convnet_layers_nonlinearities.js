@@ -225,8 +225,11 @@
     }
   }
 
-  // a helper function, since tanh is not yet part of ECMAScript. Will be in v6.
+  // a helper function, since tanh is not universally available in old browsers.
+  // Saturate beyond +/-20 to avoid Math.exp overflow to Infinity.
   function tanh(x) {
+    if (x > 20) { return 1; }
+    if (x < -20) { return -1; }
     var y = Math.exp(2 * x);
     return (y - 1) / (y + 1);
   }
