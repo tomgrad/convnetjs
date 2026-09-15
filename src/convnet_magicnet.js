@@ -252,6 +252,8 @@
         eval_candidates = this.evaluated_candidates
       }
 
+      if(nv === 0) { return new global.Vol(1, 1, 0, 0.0); }
+
       // forward nets of all candidates and average the predictions
       var xout, n;
       for(var j=0;j<nv;j++) {
