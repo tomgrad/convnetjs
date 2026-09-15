@@ -1,7 +1,6 @@
-(function(global) {
-  "use strict";
-  var Vol = global.Vol; // convenience
-  
+import { Vol } from './convnet_vol.js';
+import { zeros } from './convnet_util.js';
+
   // Implements ReLU nonlinearity elementwise
   // x -> max(0, x)
   // the output is in [0, inf)
@@ -30,7 +29,7 @@
       var V = this.in_act; // we need to set dw of this
       var V2 = this.out_act;
       var N = V.w.length;
-      V.dw = global.zeros(N); // zero out gradient wrt data
+      V.dw = zeros(N); // zero out gradient wrt data
       for(var i=0;i<N;i++) {
         if(V2.w[i] <= 0) V.dw[i] = 0; // threshold
         else V.dw[i] = V2.dw[i];
@@ -84,7 +83,7 @@
       var V = this.in_act; // we need to set dw of this
       var V2 = this.out_act;
       var N = V.w.length;
-      V.dw = global.zeros(N); // zero out gradient wrt data
+      V.dw = zeros(N); // zero out gradient wrt data
       for(var i=0;i<N;i++) {
         var v2wi = V2.w[i];
         V.dw[i] =  v2wi * (1.0 - v2wi) * V2.dw[i];
@@ -125,7 +124,7 @@
     this.out_depth = Math.floor(opt.in_depth / this.group_size);
     this.layer_type = 'maxout';
 
-    this.switches = global.zeros(this.out_sx*this.out_sy*this.out_depth); // useful for backprop
+    this.switches = zeros(this.out_sx*this.out_sy*this.out_depth); // useful for backprop
   }
   MaxoutLayer.prototype = {
     forward: function(V, is_training) {
@@ -181,7 +180,7 @@
       var V = this.in_act; // we need to set dw of this
       var V2 = this.out_act;
       var N = this.out_depth;
-      V.dw = global.zeros(V.w.length); // zero out gradient wrt data
+      V.dw = zeros(V.w.length); // zero out gradient wrt data
 
       // pass the gradient through the appropriate switch
       if(this.out_sx === 1 && this.out_sy === 1) {
@@ -221,7 +220,7 @@
       this.out_sy = json.out_sy;
       this.layer_type = json.layer_type; 
       this.group_size = json.group_size;
-      this.switches = global.zeros(this.out_sx*this.out_sy*this.out_depth);
+      this.switches = zeros(this.out_sx*this.out_sy*this.out_depth);
     }
   }
 
@@ -260,7 +259,7 @@
       var V = this.in_act; // we need to set dw of this
       var V2 = this.out_act;
       var N = V.w.length;
-      V.dw = global.zeros(N); // zero out gradient wrt data
+      V.dw = zeros(N); // zero out gradient wrt data
       for(var i=0;i<N;i++) {
         var v2wi = V2.w[i];
         V.dw[i] = (1.0 - v2wi * v2wi) * V2.dw[i];
@@ -285,10 +284,6 @@
     }
   }
   
-  global.TanhLayer = TanhLayer;
-  global.MaxoutLayer = MaxoutLayer;
-  global.ReluLayer = ReluLayer;
-  global.SigmoidLayer = SigmoidLayer;
+  export { TanhLayer, MaxoutLayer, ReluLayer, SigmoidLayer };
 
-})(convnetjs);
 

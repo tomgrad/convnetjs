@@ -1,6 +1,3 @@
-(function(global) {
-  "use strict";
-
   // Random number utilities
   var return_v = false;
   var v_val = 0.0;
@@ -123,16 +120,4 @@
     }
   }
 
-  global.randf = randf;
-  global.randi = randi;
-  global.randn = randn;
-  global.zeros = zeros;
-  global.maxmin = maxmin;
-  global.randperm = randperm;
-  global.weightedSample = weightedSample;
-  global.arrUnique = arrUnique;
-  global.arrContains = arrContains;
-  global.getopt = getopt;
-  global.assert = assert;
-  
-})(convnetjs);
+export { randf, randi, randn, zeros, maxmin, randperm, weightedSample, arrUnique, arrContains, getopt, assert };

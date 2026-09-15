@@ -1,5 +1,4 @@
-(function(global) {
-  "use strict";
+import { zeros } from './convnet_util.js';
 
   var Trainer = function(net, options) {
 
@@ -61,9 +60,9 @@
           // adagrad needs gsum
           // adam and adadelta needs gsum and xsum
           for(var i=0;i<pglist.length;i++) {
-            this.gsum.push(global.zeros(pglist[i].params.length));
+            this.gsum.push(zeros(pglist[i].params.length));
             if(this.method === 'adam' || this.method === 'adadelta') {
-              this.xsum.push(global.zeros(pglist[i].params.length));
+              this.xsum.push(zeros(pglist[i].params.length));
             } else {
               this.xsum.push([]); // conserve memory
             }
@@ -151,7 +150,8 @@
     }
   }
   
-  global.Trainer = Trainer;
-  global.SGDTrainer = Trainer; // backwards compatibility
-})(convnetjs);
+  var SGDTrainer = Trainer; // backwards compatibility
+
+  export { Trainer, SGDTrainer };
+
 

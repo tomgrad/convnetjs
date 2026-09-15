@@ -1,7 +1,7 @@
 'use strict';
-const test = require('node:test');
-const assert = require('node:assert');
-const convnetjs = require('../../build/convnet.js');
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import convnetjs from '../../build/convnet.cjs';
 
 test('Vol.toJSON serializes w as a JSON array', () => {
   const v = new convnetjs.Vol([1, 2, 3]);

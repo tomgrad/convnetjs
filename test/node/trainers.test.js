@@ -1,7 +1,7 @@
 'use strict';
-const test = require('node:test');
-const assert = require('node:assert');
-const convnetjs = require('../../build/convnet.js');
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import convnetjs from '../../build/convnet.cjs';
 
 // Layers after makeLayers: 0=input, 1=fc, 2=fc (added by regression), 3=regression.
 // We pin all weights so the first Adam step is analytically known.

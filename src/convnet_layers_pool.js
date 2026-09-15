@@ -1,7 +1,6 @@
-(function(global) {
-  "use strict";
-  var Vol = global.Vol; // convenience
-  
+import { Vol } from './convnet_vol.js';
+import { zeros } from './convnet_util.js';
+
   var PoolLayer = function(opt) {
 
     opt = opt || {};
@@ -23,8 +22,8 @@
     this.out_sy = Math.floor((this.in_sy + this.pad * 2 - this.sy) / this.stride + 1);
     this.layer_type = 'pool';
     // store switches for x,y coordinates for where the max comes from, for each output neuron
-    this.switchx = global.zeros(this.out_sx*this.out_sy*this.out_depth);
-    this.switchy = global.zeros(this.out_sx*this.out_sy*this.out_depth);
+    this.switchx = zeros(this.out_sx*this.out_sy*this.out_depth);
+    this.switchy = zeros(this.out_sx*this.out_sy*this.out_depth);
   }
 
   PoolLayer.prototype = {
@@ -71,7 +70,7 @@
       // pooling layers have no parameters, so simply compute 
       // gradient wrt data here
       var V = this.in_act;
-      V.dw = global.zeros(V.w.length); // zero out gradient wrt data
+      V.dw = zeros(V.w.length); // zero out gradient wrt data
       var A = this.out_act; // computed in forward pass 
 
       var n = 0;
@@ -116,11 +115,10 @@
       this.stride = json.stride;
       this.in_depth = json.in_depth;
       this.pad = typeof json.pad !== 'undefined' ? json.pad : 0; // backwards compatibility
-      this.switchx = global.zeros(this.out_sx*this.out_sy*this.out_depth); // need to re-init these appropriately
-      this.switchy = global.zeros(this.out_sx*this.out_sy*this.out_depth);
+      this.switchx = zeros(this.out_sx*this.out_sy*this.out_depth); // need to re-init these appropriately
+      this.switchy = zeros(this.out_sx*this.out_sy*this.out_depth);
     }
   }
 
-  global.PoolLayer = PoolLayer;
+  export { PoolLayer };
 
-})(convnetjs);

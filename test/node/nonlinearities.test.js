@@ -1,7 +1,7 @@
 'use strict';
-const test = require('node:test');
-const assert = require('node:assert');
-const convnetjs = require('../../build/convnet.js');
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import convnetjs from '../../build/convnet.cjs';
 
 function tanhLayer() {
   return new convnetjs.TanhLayer({ in_sx: 1, in_sy: 1, in_depth: 1 });

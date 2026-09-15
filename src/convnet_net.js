@@ -1,6 +1,11 @@
-(function(global) {
-  "use strict";
-  var assert = global.assert;
+import { assert } from './convnet_util.js';
+import { ConvLayer, FullyConnLayer } from './convnet_layers_dotproducts.js';
+import { PoolLayer } from './convnet_layers_pool.js';
+import { InputLayer } from './convnet_layers_input.js';
+import { RegressionLayer, SoftmaxLayer, SVMLayer } from './convnet_layers_loss.js';
+import { ReluLayer, SigmoidLayer, TanhLayer, MaxoutLayer } from './convnet_layers_nonlinearities.js';
+import { DropoutLayer } from './convnet_layers_dropout.js';
+import { LocalResponseNormalizationLayer } from './convnet_layers_normalization.js';
 
   // Net manages a set of layers
   // For now constraints: Simple linear order of layers, first layer input last layer a cost layer
@@ -93,19 +98,19 @@
         }
 
         switch(def.type) {
-          case 'fc': this.layers.push(new global.FullyConnLayer(def)); break;
-          case 'lrn': this.layers.push(new global.LocalResponseNormalizationLayer(def)); break;
-          case 'dropout': this.layers.push(new global.DropoutLayer(def)); break;
-          case 'input': this.layers.push(new global.InputLayer(def)); break;
-          case 'softmax': this.layers.push(new global.SoftmaxLayer(def)); break;
-          case 'regression': this.layers.push(new global.RegressionLayer(def)); break;
-          case 'conv': this.layers.push(new global.ConvLayer(def)); break;
-          case 'pool': this.layers.push(new global.PoolLayer(def)); break;
-          case 'relu': this.layers.push(new global.ReluLayer(def)); break;
-          case 'sigmoid': this.layers.push(new global.SigmoidLayer(def)); break;
-          case 'tanh': this.layers.push(new global.TanhLayer(def)); break;
-          case 'maxout': this.layers.push(new global.MaxoutLayer(def)); break;
-          case 'svm': this.layers.push(new global.SVMLayer(def)); break;
+          case 'fc': this.layers.push(new FullyConnLayer(def)); break;
+          case 'lrn': this.layers.push(new LocalResponseNormalizationLayer(def)); break;
+          case 'dropout': this.layers.push(new DropoutLayer(def)); break;
+          case 'input': this.layers.push(new InputLayer(def)); break;
+          case 'softmax': this.layers.push(new SoftmaxLayer(def)); break;
+          case 'regression': this.layers.push(new RegressionLayer(def)); break;
+          case 'conv': this.layers.push(new ConvLayer(def)); break;
+          case 'pool': this.layers.push(new PoolLayer(def)); break;
+          case 'relu': this.layers.push(new ReluLayer(def)); break;
+          case 'sigmoid': this.layers.push(new SigmoidLayer(def)); break;
+          case 'tanh': this.layers.push(new TanhLayer(def)); break;
+          case 'maxout': this.layers.push(new MaxoutLayer(def)); break;
+          case 'svm': this.layers.push(new SVMLayer(def)); break;
           default: console.log('ERROR: UNRECOGNIZED LAYER TYPE: ' + def.type);
         }
       }
@@ -178,19 +183,19 @@
         var Lj = json.layers[i]
         var t = Lj.layer_type;
         var L;
-        if(t==='input') { L = new global.InputLayer(); }
-        if(t==='relu') { L = new global.ReluLayer(); }
-        if(t==='sigmoid') { L = new global.SigmoidLayer(); }
-        if(t==='tanh') { L = new global.TanhLayer(); }
-        if(t==='dropout') { L = new global.DropoutLayer(); }
-        if(t==='conv') { L = new global.ConvLayer(); }
-        if(t==='pool') { L = new global.PoolLayer(); }
-        if(t==='lrn') { L = new global.LocalResponseNormalizationLayer(); }
-        if(t==='softmax') { L = new global.SoftmaxLayer(); }
-        if(t==='regression') { L = new global.RegressionLayer(); }
-        if(t==='fc') { L = new global.FullyConnLayer(); }
-        if(t==='maxout') { L = new global.MaxoutLayer(); }
-        if(t==='svm') { L = new global.SVMLayer(); }
+        if(t==='input') { L = new InputLayer(); }
+        if(t==='relu') { L = new ReluLayer(); }
+        if(t==='sigmoid') { L = new SigmoidLayer(); }
+        if(t==='tanh') { L = new TanhLayer(); }
+        if(t==='dropout') { L = new DropoutLayer(); }
+        if(t==='conv') { L = new ConvLayer(); }
+        if(t==='pool') { L = new PoolLayer(); }
+        if(t==='lrn') { L = new LocalResponseNormalizationLayer(); }
+        if(t==='softmax') { L = new SoftmaxLayer(); }
+        if(t==='regression') { L = new RegressionLayer(); }
+        if(t==='fc') { L = new FullyConnLayer(); }
+        if(t==='maxout') { L = new MaxoutLayer(); }
+        if(t==='svm') { L = new SVMLayer(); }
         if(typeof L === 'undefined') { throw new Error('Unknown layer type: ' + t); }
         L.fromJSON(Lj);
         this.layers.push(L);
@@ -198,5 +203,5 @@
     }
   }
   
-  global.Net = Net;
-})(convnetjs);
+  export { Net };
+

@@ -1,7 +1,7 @@
 'use strict';
-const test = require('node:test');
-const assert = require('node:assert');
-const convnetjs = require('../../build/convnet.js');
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import convnetjs from '../../build/convnet.cjs';
 
 // Layers: 0=input, 1=fc, 2=relu, 3=fc (added by softmax), 4=softmax.
 // All weights are pinned so every value below is analytically known.

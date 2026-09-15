@@ -1,7 +1,5 @@
 
-(function(global) {
-  "use strict";
-  var getopt = global.getopt;
+import { getopt } from './convnet_util.js';
 
   var InputLayer = function(opt) {
     opt = opt || {};
@@ -42,5 +40,5 @@
     }
   }
 
-  global.InputLayer = InputLayer;
-})(convnetjs);
+  export { InputLayer };
+

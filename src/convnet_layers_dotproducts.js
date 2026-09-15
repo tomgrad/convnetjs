@@ -1,6 +1,5 @@
-(function(global) {
-  "use strict";
-  var Vol = global.Vol; // convenience
+import { Vol } from './convnet_vol.js';
+import { zeros } from './convnet_util.js';
 
   // This file contains all layers that do dot products with input,
   // but usually in a different connectivity pattern and weight sharing
@@ -83,7 +82,7 @@
     backward: function() {
 
       var V = this.in_act;
-      V.dw = global.zeros(V.w.length); // zero out gradient wrt bottom data, we're about to fill it
+      V.dw = zeros(V.w.length); // zero out gradient wrt bottom data, we're about to fill it
 
       var V_sx = V.sx |0;
       var V_sy = V.sy |0;
@@ -213,7 +212,7 @@
     },
     backward: function() {
       var V = this.in_act;
-      V.dw = global.zeros(V.w.length); // zero out the gradient in input Vol
+      V.dw = zeros(V.w.length); // zero out the gradient in input Vol
       
       // compute gradient wrt weights and data
       for(var i=0;i<this.out_depth;i++) {
@@ -269,7 +268,5 @@
     }
   }
 
-  global.ConvLayer = ConvLayer;
-  global.FullyConnLayer = FullyConnLayer;
-  
-})(convnetjs);
+  export { ConvLayer, FullyConnLayer };
+

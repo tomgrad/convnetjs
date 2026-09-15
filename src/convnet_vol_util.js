@@ -1,6 +1,5 @@
-(function(global) {
-  "use strict";
-  var Vol = global.Vol; // convenience
+import { Vol } from './convnet_vol.js';
+import { randi } from './convnet_util.js';
 
   // Volume utilities
   // intended for use with data augmentation
@@ -10,8 +9,8 @@
   var augment = function(V, crop, dx, dy, fliplr) {
     // note assumes square outputs of size crop x crop
     if(typeof(fliplr)==='undefined') var fliplr = false;
-    if(typeof(dx)==='undefined') var dx = global.randi(0, V.sx - crop);
-    if(typeof(dy)==='undefined') var dy = global.randi(0, V.sy - crop);
+    if(typeof(dx)==='undefined') var dx = randi(0, V.sx - crop);
+    if(typeof(dy)==='undefined') var dy = randi(0, V.sy - crop);
     
     // randomly sample a crop in the input volume
     var W;
@@ -102,7 +101,4 @@
     return x;
   }
   
-  global.augment = augment;
-  global.img_to_vol = img_to_vol;
-
-})(convnetjs);
+  export { augment, img_to_vol };

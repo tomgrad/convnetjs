@@ -1,5 +1,4 @@
-(function(global) {
-  "use strict";
+import { zeros, randn } from './convnet_util.js';
 
   // Vol is the basic building block of all data in a net.
   // it is essentially just a 3D volume of numbers, with a
@@ -17,8 +16,8 @@
       this.depth = sx.length;
       // we have to do the following copy because we want to use
       // fast typed arrays, not an ordinary javascript array
-      this.w = global.zeros(this.depth);
-      this.dw = global.zeros(this.depth);
+      this.w = zeros(this.depth);
+      this.dw = zeros(this.depth);
       for(var i=0;i<this.depth;i++) {
         this.w[i] = sx[i];
       }
@@ -28,15 +27,15 @@
       this.sy = sy;
       this.depth = depth;
       var n = sx*sy*depth;
-      this.w = global.zeros(n);
-      this.dw = global.zeros(n);
+      this.w = zeros(n);
+      this.dw = zeros(n);
       if(typeof c === 'undefined') {
         // weight normalization is done to equalize the output
         // variance of every neuron, otherwise neurons with a lot
         // of incoming connections have outputs of larger variance
         var scale = Math.sqrt(1.0/(sx*sy*depth));
         for(var i=0;i<n;i++) { 
-          this.w[i] = global.randn(0.0, scale);
+          this.w[i] = randn(0.0, scale);
         }
       } else {
         for(var i=0;i<n;i++) { 
@@ -98,8 +97,8 @@
       this.depth = json.depth;
 
       var n = this.sx*this.sy*this.depth;
-      this.w = global.zeros(n);
-      this.dw = global.zeros(n);
+      this.w = zeros(n);
+      this.dw = zeros(n);
       // copy over the elements.
       for(var i=0;i<n;i++) {
         this.w[i] = json.w[i];
@@ -107,5 +106,5 @@
     }
   }
 
-  global.Vol = Vol;
-})(convnetjs);
+  export { Vol };
+

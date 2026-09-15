@@ -1,16 +1,7 @@
-(function(global) {
-  "use strict";
-
-  // used utilities, make explicit local references
-  var randf = global.randf;
-  var randi = global.randi;
-  var Net = global.Net;
-  var Trainer = global.Trainer;
-  var maxmin = global.maxmin;
-  var randperm = global.randperm;
-  var weightedSample = global.weightedSample;
-  var getopt = global.getopt;
-  var arrUnique = global.arrUnique;
+import { randf, randi, maxmin, randperm, weightedSample, getopt, arrUnique } from './convnet_util.js';
+import { Net } from './convnet_net.js';
+import { Trainer } from './convnet_trainers.js';
+import { Vol } from './convnet_vol.js';
 
   /*
   A MagicNet takes data: a list of convnetjs.Vol(), and labels
@@ -252,7 +243,7 @@
         eval_candidates = this.evaluated_candidates
       }
 
-      if(nv === 0) { return new global.Vol(1, 1, 0, 0.0); }
+      if(nv === 0) { return new Vol(1, 1, 0, 0.0); }
 
       // forward nets of all candidates and average the predictions
       var xout, n;
@@ -319,5 +310,5 @@
     
   };
 
-  global.MagicNet = MagicNet;
-})(convnetjs);
+  export { MagicNet };
+

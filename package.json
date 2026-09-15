@@ -3,12 +3,23 @@
   "version": "0.0.0",
   "private": true,
   "description": "Deep Learning in Javascript (browser + Node).",
-  "main": "build/convnet.js",
+  "type": "module",
+  "main": "build/convnet.cjs",
+  "exports": {
+    ".": {
+      "require": "./build/convnet.cjs",
+      "default": "./build/convnet.cjs"
+    }
+  },
   "scripts": {
-    "build": "make",
-    "pretest": "make build/convnet.js",
+    "build": "npm run build:iife && npm run build:cjs && npm run build:min",
+    "build:iife": "esbuild src/index.js --bundle --format=iife --global-name=convnetjs --outfile=build/convnet.js",
+    "build:cjs": "esbuild src/index.js --bundle --format=cjs --outfile=build/convnet.cjs",
+    "build:min": "esbuild src/index.js --bundle --format=iife --global-name=convnetjs --minify --outfile=build/convnet-min.js",
+    "pretest": "npm run build",
     "test": "node --test test/node/"
   },
   "engines": { "node": ">=18" },
+  "devDependencies": { "esbuild": "^0.28.2" },
   "license": "MIT"
 }

@@ -1,5 +1,4 @@
-(function(global) {
-  "use strict";
+import { zeros } from './convnet_util.js';
 
   // An inefficient dropout layer
   // Note this is not most efficient implementation since the layer before
@@ -16,7 +15,7 @@
     this.out_depth = opt.in_depth;
     this.layer_type = 'dropout';
     this.drop_prob = typeof opt.drop_prob !== 'undefined' ? opt.drop_prob : 0.5;
-    this.dropped = global.zeros(this.out_sx*this.out_sy*this.out_depth);
+    this.dropped = zeros(this.out_sx*this.out_sy*this.out_depth);
   }
   DropoutLayer.prototype = {
     forward: function(V, is_training) {
@@ -41,7 +40,7 @@
       var V = this.in_act; // we need to set dw of this
       var chain_grad = this.out_act;
       var N = V.w.length;
-      V.dw = global.zeros(N); // zero out gradient wrt data
+      V.dw = zeros(N); // zero out gradient wrt data
       for(var i=0;i<N;i++) {
         if(!(this.dropped[i])) { 
           V.dw[i] = chain_grad.dw[i]; // copy over the gradient
@@ -70,5 +69,5 @@
   }
   
 
-  global.DropoutLayer = DropoutLayer;
-})(convnetjs);
+  export { DropoutLayer };
+

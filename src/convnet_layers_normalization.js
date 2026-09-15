@@ -1,6 +1,5 @@
-(function(global) {
-  "use strict";
-  
+import { zeros } from './convnet_util.js';
+
   // a bit experimental layer for now. I think it works but I'm not 100%
   // the gradient check is a bit funky. I'll look into this a bit later.
   // Local Response Normalization in window, along depths of volumes
@@ -56,7 +55,7 @@
     backward: function() { 
       // evaluate gradient wrt data
       var V = this.in_act; // we need to set dw of this
-      V.dw = global.zeros(V.w.length); // zero out gradient wrt data
+      V.dw = zeros(V.w.length); // zero out gradient wrt data
       var A = this.out_act; // computed in forward pass 
 
       var n2 = Math.floor(this.n/2);
@@ -109,5 +108,5 @@
   }
   
 
-  global.LocalResponseNormalizationLayer = LocalResponseNormalizationLayer;
-})(convnetjs);
+  export { LocalResponseNormalizationLayer };
+

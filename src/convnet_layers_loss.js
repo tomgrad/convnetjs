@@ -1,7 +1,6 @@
-(function(global) {
-  "use strict";
-  var Vol = global.Vol; // convenience
-  
+import { Vol } from './convnet_vol.js';
+import { zeros } from './convnet_util.js';
+
   // Layers that implement a loss. Currently these are the layers that 
   // can initiate a backward() pass. In future we probably want a more 
   // flexible system that can accomodate multiple losses to do multi-task
@@ -36,7 +35,7 @@
       }
 
       // compute exponentials (carefully to not blow up)
-      var es = global.zeros(this.out_depth);
+      var es = zeros(this.out_depth);
       var esum = 0.0;
       for(var i=0;i<this.out_depth;i++) {
         var e = Math.exp(as[i] - amax);
@@ -58,7 +57,7 @@
 
       // compute and accumulate gradient wrt weights and bias of this layer
       var x = this.in_act;
-      x.dw = global.zeros(x.w.length); // zero out the gradient of input Vol
+      x.dw = zeros(x.w.length); // zero out the gradient of input Vol
 
       for(var i=0;i<this.out_depth;i++) {
         var indicator = i === y ? 1.0 : 0.0;
@@ -118,7 +117,7 @@
 
       // compute and accumulate gradient wrt weights and bias of this layer
       var x = this.in_act;
-      x.dw = global.zeros(x.w.length); // zero out the gradient of input Vol
+      x.dw = zeros(x.w.length); // zero out the gradient of input Vol
       var loss = 0.0;
       if(y instanceof Array || y instanceof Float64Array) {
         for(var i=0;i<this.out_depth;i++) {
@@ -184,7 +183,7 @@
 
       // compute and accumulate gradient wrt weights and bias of this layer
       var x = this.in_act;
-      x.dw = global.zeros(x.w.length); // zero out the gradient of input Vol
+      x.dw = zeros(x.w.length); // zero out the gradient of input Vol
 
       // we're using structured loss here, which means that the score
       // of the ground truth should be higher than the score of any other 
@@ -226,9 +225,6 @@
     }
   }
   
-  global.RegressionLayer = RegressionLayer;
-  global.SoftmaxLayer = SoftmaxLayer;
-  global.SVMLayer = SVMLayer;
+  export { RegressionLayer, SoftmaxLayer, SVMLayer };
 
-})(convnetjs);
 
