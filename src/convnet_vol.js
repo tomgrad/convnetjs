@@ -88,7 +88,7 @@
       json.sx = this.sx; 
       json.sy = this.sy;
       json.depth = this.depth;
-      json.w = this.w;
+      json.w = Array.prototype.slice.call(this.w);
       return json;
       // we wont back up gradients to save space
     },
