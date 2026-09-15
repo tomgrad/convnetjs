@@ -67,7 +67,7 @@
       }
 
       // loss is the class negative log likelihood
-      return -Math.log(this.es[y]);
+      return -Math.log(Math.max(this.es[y], 1e-15));
     },
     getParamsAndGrads: function() { 
       return [];
