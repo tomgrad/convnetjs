@@ -100,19 +100,22 @@ See the **releases** page for this project to get the minified, compiled library
 - [convnet.js](http://cs.stanford.edu/people/karpathy/convnetjs/build/convnet.js)
 - [convnet-min.js](http://cs.stanford.edu/people/karpathy/convnetjs/build/convnet-min.js)
 
-## Compiling the library from src/ to build/
-If you would like to add features to the library, you will have to change the code in `src/` and then compile the library into the `build/` directory. The compilation script simply concatenates files in `src/` and then minifies the result.
+## Building from src/ to build/
+The library is written as ES modules in `src/` and bundled with [esbuild](https://esbuild.github.io/). Install the dev dependency once, then build:
 
-Run `make` from the repository root. It requires only `node`/`npx`: it concatenates the source files in `src/` (in the order listed in the `Makefile`) into `build/convnet.js`, then minifies the result into `build/convnet-min.js` with [esbuild](https://esbuild.github.io/). `make clean` removes both outputs.
+    $ npm install
+    $ npm run build
+
+This produces `build/convnet.js` (a global `convnetjs` build used by the demos), `build/convnet.cjs` (CommonJS), and `build/convnet-min.js` (minified).
 
 ## Testing
 Requires Node 18+. Build first, then run the headless suite:
 
     $ npm test
 
-or, without npm:
+or, without npm's test wrapper:
 
-    $ make && node --test test/node/
+    $ npm run build && node --test test/node/
 
 A browser-based Jasmine suite (including a numerical gradient check) lives at `test/jasmine/SpecRunner.html`.
 

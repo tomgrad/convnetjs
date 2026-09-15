@@ -1,24 +1,32 @@
 # AGENTS.md
 
-ConvNetJS: a browser/Node neural-network library. Plain JS, no bundler, no module system — all of `src/` is concatenated into one global `convnetjs` object.
+ConvNetJS: a browser/Node neural-network library. `src/` holds ES modules that esbuild bundles into a global `convnetjs` object (and a CommonJS build).
 
 ## Build (required before demos/tests)
 `build/convnet.js` is a generated artifact and is **not committed**. Demos (`demo/*.html`) and the Jasmine spec runner both load `build/convnet.js`, so build it first.
 
-Build with `make` at the repo root. Requires only `node`/`npx`; it concatenates `src/*.js` into `build/convnet.js`, then minifies to `build/convnet-min.js` with `npx esbuild`. `make clean` removes both outputs. Only `convnet.js` is needed by demos/tests.
+Install the dev dependency once, then build:
 
-- `src/*.js` is concatenated **in the exact order of the `SRCS` list in the `Makefile`**; order is significant (later files reference globals defined earlier).
-- To add a new source file, add it to `SRCS` in the `Makefile` at the correct position.
-- `convnet_vol_util.js` has no trailing newline; the Makefile's `awk 1` compensates, so don't rely on plain `cat` if you script the build yourself.
-- `convnet_init.js` declares the `convnetjs` global; `convnet_export.js` must stay last and wires `module.exports` for Node.
+    $ npm install
+    $ npm run build
+
+This produces three generated, uncommitted outputs:
+
+- `build/convnet.js` — IIFE bundle exposing the global `convnetjs` (used by demos).
+- `build/convnet.cjs` — CommonJS bundle (used by Node/tests).
+- `build/convnet-min.js` — minified IIFE bundle.
+
+`src/index.js` is the bundle entry; esbuild resolves the module graph, so there is no manual file order. To add a source file, import it from `src/index.js`.
+
 - `build/deepqlearn.js`, `build/util.js`, `build/vis.js` are separate hand-maintained files, not produced by the build.
 
 ## Tests
-Headless (Node >= 18): `npm test` (runs `make` first) or `make && node --test test/node/`. Run one file with `node --test test/node/<name>.test.js`.
+Headless (Node >= 18): `npm test` (runs `npm run build` first) or `npm run build && node --test test/node/`. Run one file with `node --test test/node/<name>.test.js`.
 
-Browser Jasmine 2.0.0 remains at `test/jasmine/SpecRunner.html` (open after building). The Node suite covers trainers/layers/serialization; the Jasmine spec contains the analytic-vs-numeric gradient check.
+Browser Jasmine 2.0.0 remains at `test/jasmine/SpecRunner.html` (open after building). The Node suite now includes golden regression tests and headless gradient checks (fc, conv/pool/relu, maxout), plus the original layer/trainer/serialization tests.
 
 ## Layout
+- `src/*.js` are ES modules; layers are ES classes.
 - `src/convnet_net.js` — `Net.makeLayers` desugars `layer_defs`: activations become their own layers, `softmax`/`svm`/`regression` implicitly add an `fc` layer, and `drop_prob` inserts a dropout layer. `net.layers.length` is therefore larger than the input defs.
 - `src/convnet_trainers.js` — SGD / Adagrad / Adadelta / Adam / windowgrad trainers.
 - `src/convnet_magicnet.js` — k-fold model/hyperparameter search wrapper.
@@ -27,4 +35,4 @@ Browser Jasmine 2.0.0 remains at `test/jasmine/SpecRunner.html` (open after buil
 
 ## Notes
 - The README's `npm install convnetjs` instructions are stale (upstream is unmaintained); the local `package.json` exists only for building and testing, not for publishing.
-- Files use the `(function(global){ "use strict"; ... })(convnetjs)` IIFE pattern and attach classes to the shared global.
+- Source files use `import`/`export`; the IIFE bundle attaches the exports to the shared `convnetjs` global.
