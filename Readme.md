@@ -103,11 +103,7 @@ See the **releases** page for this project to get the minified, compiled library
 ## Compiling the library from src/ to build/
 If you would like to add features to the library, you will have to change the code in `src/` and then compile the library into the `build/` directory. The compilation script simply concatenates files in `src/` and then minifies the result.
 
-The compilation is done using an ant task: it compiles `build/convnet.js` by concatenating the source files in `src/` and then minifies the result into `build/convnet-min.js`. Make sure you have **ant** installed (on Ubuntu you can simply *sudo apt-get install* it), then cd into `compile/` directory and run:
-
-    $ ant -lib yuicompressor-2.4.8.jar -f build.xml
-
-The output files will be in `build/`
+Run `make` from the repository root. It requires only `node`/`npx`: it concatenates the source files in `src/` (in the order listed in the `Makefile`) into `build/convnet.js`, then minifies the result into `build/convnet-min.js` with [esbuild](https://esbuild.github.io/). `make clean` removes both outputs.
 ## Use in Node
 The library is also available on *node.js*:
 
