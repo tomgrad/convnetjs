@@ -3,3 +3,4 @@ build/convnet.cjs
 build/convnet-min.js
 node_modules/
 demo/mnist
+docs/superpowers/
