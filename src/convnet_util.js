@@ -92,6 +92,7 @@
       cumprob += probs[k];
       if(p < cumprob) { return lst[k]; }
     }
+    return lst[lst.length - 1];
   }
 
   // syntactic sugar function for getting default parameter values
