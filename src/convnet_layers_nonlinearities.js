@@ -6,7 +6,7 @@
   // x -> max(0, x)
   // the output is in [0, inf)
   var ReluLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // computed
     this.out_sx = opt.in_sx;
@@ -59,7 +59,7 @@
   // x -> 1/(1+e^(-x))
   // so the output is between 0 and 1.
   var SigmoidLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // computed
     this.out_sx = opt.in_sx;
@@ -114,7 +114,7 @@
   // where x is a vector of size group_size. Ideally of course,
   // the input size should be exactly divisible by group_size
   var MaxoutLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // required
     this.group_size = typeof opt.group_size !== 'undefined' ? opt.group_size : 2;
@@ -237,7 +237,7 @@
   // x -> tanh(x) 
   // so the output is between -1 and 1.
   var TanhLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // computed
     this.out_sx = opt.in_sx;

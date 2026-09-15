@@ -1,6 +1,5 @@
 (function(global) {
   "use strict";
-  var Vol = global.Vol; // convenience
 
   // An inefficient dropout layer
   // Note this is not most efficient implementation since the layer before
@@ -9,7 +8,7 @@
   // we could equivalently be clever and upscale during train and copy pointers during test
   // todo: make more efficient.
   var DropoutLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // computed
     this.out_sx = opt.in_sx;

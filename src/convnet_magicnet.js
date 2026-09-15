@@ -21,7 +21,7 @@
   - produces predictions by model-averaging the best networks
   */
   var MagicNet = function(data, labels, opt) {
-    var opt = opt || {};
+    opt = opt || {};
     if(typeof data === 'undefined') { data = []; }
     if(typeof labels === 'undefined') { labels = []; }
 

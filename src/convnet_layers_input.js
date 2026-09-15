@@ -1,11 +1,10 @@
 
 (function(global) {
   "use strict";
-  var Vol = global.Vol; // convenience
   var getopt = global.getopt;
 
   var InputLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // required: depth
     this.out_depth = getopt(opt, ['out_depth', 'depth'], 0);

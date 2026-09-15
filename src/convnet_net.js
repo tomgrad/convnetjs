@@ -1,6 +1,5 @@
 (function(global) {
   "use strict";
-  var Vol = global.Vol; // convenience
   var assert = global.assert;
 
   // Net manages a set of layers
@@ -64,7 +63,7 @@
             else if (def.activation==='tanh') { new_defs.push({type:'tanh'}); }
             else if (def.activation==='maxout') {
               // create maxout activation, and pass along group size, if provided
-              var gs = def.group_size !== 'undefined' ? def.group_size : 2;
+              var gs = typeof def.group_size !== 'undefined' ? def.group_size : 2;
               new_defs.push({type:'maxout', group_size:gs});
             }
             else { console.log('ERROR unsupported activation ' + def.activation); }

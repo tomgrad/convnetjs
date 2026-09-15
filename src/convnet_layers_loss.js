@@ -12,7 +12,7 @@
   // it gets a stream of N incoming numbers and computes the softmax
   // function (exponentiate and normalize to sum to 1 as probabilities should)
   var SoftmaxLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // computed
     this.num_inputs = opt.in_sx * opt.in_sy * opt.in_depth;
@@ -94,7 +94,7 @@
   // so penalizes \sum_i(||x_i - y_i||^2), where x is its input
   // and y is the user-provided array of "correct" values.
   var RegressionLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // computed
     this.num_inputs = opt.in_sx * opt.in_sy * opt.in_depth;
@@ -164,7 +164,7 @@
   }
 
   var SVMLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // computed
     this.num_inputs = opt.in_sx * opt.in_sy * opt.in_depth;

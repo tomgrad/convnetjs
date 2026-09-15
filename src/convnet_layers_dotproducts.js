@@ -9,7 +9,7 @@
   // - ConvLayer does convolutions (so weight sharing spatially)
   // putting them together in one file because they are very similar
   var ConvLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // required
     this.out_depth = opt.filters;
@@ -171,7 +171,7 @@
   }
 
   var FullyConnLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // required
     // ok fine we will allow 'filters' as the word as well

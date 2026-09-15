@@ -4,7 +4,7 @@
   
   var PoolLayer = function(opt) {
 
-    var opt = opt || {};
+    opt = opt || {};
 
     // required
     this.sx = opt.sx; // filter size

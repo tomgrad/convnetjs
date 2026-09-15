@@ -1,12 +1,11 @@
 (function(global) {
   "use strict";
-  var Vol = global.Vol; // convenience
   
   // a bit experimental layer for now. I think it works but I'm not 100%
   // the gradient check is a bit funky. I'll look into this a bit later.
   // Local Response Normalization in window, along depths of volumes
   var LocalResponseNormalizationLayer = function(opt) {
-    var opt = opt || {};
+    opt = opt || {};
 
     // required
     this.k = opt.k;
