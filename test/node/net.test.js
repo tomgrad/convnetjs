@@ -16,3 +16,11 @@ test('makeLayers does not mutate the caller layer definitions', () => {
 
   assert.strictEqual(JSON.stringify(defs), before);
 });
+
+test('fromJSON throws a clear error for an unknown layer type', () => {
+  const net = new convnetjs.Net();
+  assert.throws(
+    () => net.fromJSON({ layers: [{ layer_type: 'bogus' }] }),
+    /Unknown layer type: bogus/
+  );
+});

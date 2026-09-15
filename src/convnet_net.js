@@ -188,6 +188,7 @@
         if(t==='fc') { L = new global.FullyConnLayer(); }
         if(t==='maxout') { L = new global.MaxoutLayer(); }
         if(t==='svm') { L = new global.SVMLayer(); }
+        if(typeof L === 'undefined') { throw new Error('Unknown layer type: ' + t); }
         L.fromJSON(Lj);
         this.layers.push(L);
       }
