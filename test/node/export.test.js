@@ -13,7 +13,7 @@ test('the IIFE build exposes the global convnetjs object', () => {
   const names = ['Net', 'Vol', 'Trainer', 'SGDTrainer', 'MagicNet', 'augment',
     'img_to_vol', 'ConvLayer', 'FullyConnLayer', 'PoolLayer', 'InputLayer',
     'RegressionLayer', 'SoftmaxLayer', 'SVMLayer', 'TanhLayer', 'MaxoutLayer',
-    'ReluLayer', 'SigmoidLayer', 'DropoutLayer', 'UpsampleLayer',
+    'ReluLayer', 'SigmoidLayer', 'DropoutLayer', 'UpsampleLayer', 'ReshapeLayer',
     'LocalResponseNormalizationLayer', 'randf', 'randi', 'randn', 'zeros',
     'maxmin', 'randperm', 'weightedSample', 'arrUnique', 'arrContains',
     'getopt', 'assert'];

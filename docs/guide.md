@@ -42,6 +42,7 @@ These are the `type` values recognized by `Net.makeLayers`:
 | `maxout` | `MaxoutLayer` | Maxout activation |
 | `dropout` | `DropoutLayer` | Dropout regularization |
 | `upsample` | `UpsampleLayer` | Nearest-neighbor upsampling |
+| `reshape` | `ReshapeLayer` | Reinterpret a `Vol` as a new shape |
 | `lrn` | `LocalResponseNormalizationLayer` | Local response normalization |
 | `softmax` | `SoftmaxLayer` | Softmax classification loss |
 | `svm` | `SVMLayer` | Multiclass SVM (hinge) loss |
@@ -123,6 +124,22 @@ is `in_sx * scale` by `in_sy * scale` with the same depth. Only `mode: 'nearest'
 | Option | Default | Notes |
 |---|---|---|
 | `scale` | — | Required positive integer upsampling factor |
+
+### `reshape`
+
+Reinterprets the input `Vol` as a new `sx x sy x depth` volume with the same number of elements.
+It does not resample or reorder: the flat buffer is copied unchanged, so `sx * sy * depth` must equal
+`in_sx * in_sy * in_depth`. This is the way to feed a spatial layer (e.g. `conv`) from a flattened
+`fc` output, or to flatten a volume without parameters.
+
+| Option | Default | Notes |
+|---|---|---|
+| `sx` | — | Required positive integer output width |
+| `sy` | — | Required positive integer output height |
+| `depth` | — | Required positive integer output depth |
+
+For example, `fc` outputs `1 x 1 x 256`; `{type:'reshape', sx:16, sy:16, depth:1}` turns that into a
+`16 x 16 x 1` volume that a `conv` layer can consume.
 
 ### `lrn` (local response normalization)
 

@@ -11,6 +11,7 @@ import { RegressionLayer, SoftmaxLayer, SVMLayer } from './convnet_layers_loss.j
 import { TanhLayer, MaxoutLayer, ReluLayer, SigmoidLayer } from './convnet_layers_nonlinearities.js';
 import { DropoutLayer } from './convnet_layers_dropout.js';
 import { UpsampleLayer } from './convnet_layers_upsample.js';
+import { ReshapeLayer } from './convnet_layers_reshape.js';
 import { LocalResponseNormalizationLayer } from './convnet_layers_normalization.js';
 import { Net } from './convnet_net.js';
 import { Trainer, SGDTrainer } from './convnet_trainers.js';
@@ -25,6 +26,6 @@ export {
   ConvLayer, FullyConnLayer, PoolLayer, InputLayer,
   RegressionLayer, SoftmaxLayer, SVMLayer,
   TanhLayer, MaxoutLayer, ReluLayer, SigmoidLayer,
-  DropoutLayer, UpsampleLayer, LocalResponseNormalizationLayer,
+  DropoutLayer, UpsampleLayer, ReshapeLayer, LocalResponseNormalizationLayer,
   Net, Trainer, SGDTrainer, MagicNet, REVISION
 };

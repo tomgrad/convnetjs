@@ -137,6 +137,21 @@ test('gradient check: upsample', () => {
   assert.ok(worstRelativeGradientError(makeNet, () => randomVol(2, 2, 2, rand), 1) < 1e-2);
 });
 
+test('gradient check: reshape', () => {
+  const makeNet = () => {
+    const net = new convnetjs.Net();
+    net.makeLayers([
+      { type: 'input', out_sx: 1, out_sy: 1, out_depth: 4 },
+      { type: 'reshape', sx: 2, sy: 2, depth: 1 },
+      { type: 'conv', sx: 3, filters: 2, stride: 1, pad: 1, activation: 'relu' },
+      { type: 'softmax', num_classes: 2 }
+    ]);
+    return net;
+  };
+  const rand = mulberry32(SEED);
+  assert.ok(worstRelativeGradientError(makeNet, () => randomVol(1, 1, 4, rand), 1) < 1e-2);
+});
+
 test('gradient check: local response normalization', () => {
   // alpha is deliberately large so the cross-term of the LRN Jacobian is
   // significant; with the default alpha=0.001 the error is masked.
