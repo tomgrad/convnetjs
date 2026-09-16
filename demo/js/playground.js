@@ -16,6 +16,7 @@ var default_layerdefs = "\
 layer_defs = [];\n\
 layer_defs.push({type:'input', out_sx:28, out_sy:28, out_depth:1});\n\
 layer_defs.push({type:'conv', sx:3, filters:4, stride:1, pad:1, activation:'relu'});\n\
+layer_defs.push({type:'upsample', scale:2});\n\
 ";
 
 function setStatus(msg, isError) {
