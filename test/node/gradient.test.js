@@ -26,10 +26,13 @@ function randomVol(sx, sy, depth, rand) {
 
 function worstRelativeGradientError(makeNet, makeX, label) {
   const net = makeNet();
-  const trainer = new convnetjs.SGDTrainer(net,
-    { learning_rate: 0.0001, momentum: 0.0, batch_size: 1, l2_decay: 0.0 });
   const x = makeX();
-  trainer.train(x, label);
+  // Populate x.dw with a plain forward/backward so the analytic gradient is
+  // taken at the same weights as the finite differences below. (Running the
+  // trainer here would update the weights first and add an O(lr) discrepancy
+  // that dominates the relative error for near-zero gradient components.)
+  net.forward(x, true);
+  net.backward(label);
   const analyticGrads = Array.from(x.dw);
 
   const delta = 1e-6;
@@ -117,6 +120,21 @@ test('gradient check: svm', () => {
   };
   const rand = mulberry32(SEED);
   assert.ok(worstRelativeGradientError(makeNet, () => randomVol(1, 1, 2, rand), 1) < 1e-2);
+});
+
+test('gradient check: upsample', () => {
+  const makeNet = () => {
+    const net = new convnetjs.Net();
+    net.makeLayers([
+      { type: 'input', out_sx: 2, out_sy: 2, out_depth: 2 },
+      { type: 'upsample', scale: 2 },
+      { type: 'fc', num_neurons: 3, activation: 'tanh' },
+      { type: 'softmax', num_classes: 2 }
+    ]);
+    return net;
+  };
+  const rand = mulberry32(SEED);
+  assert.ok(worstRelativeGradientError(makeNet, () => randomVol(2, 2, 2, rand), 1) < 1e-2);
 });
 
 test('gradient check: local response normalization', () => {

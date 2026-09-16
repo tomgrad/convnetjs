@@ -5,6 +5,7 @@ import { InputLayer } from './convnet_layers_input.js';
 import { RegressionLayer, SoftmaxLayer, SVMLayer } from './convnet_layers_loss.js';
 import { ReluLayer, SigmoidLayer, TanhLayer, MaxoutLayer } from './convnet_layers_nonlinearities.js';
 import { DropoutLayer } from './convnet_layers_dropout.js';
+import { UpsampleLayer } from './convnet_layers_upsample.js';
 import { LocalResponseNormalizationLayer } from './convnet_layers_normalization.js';
 
 // Net manages a set of layers
@@ -108,8 +109,9 @@ class Net {
         case 'relu': this.layers.push(new ReluLayer(def)); break;
         case 'sigmoid': this.layers.push(new SigmoidLayer(def)); break;
         case 'tanh': this.layers.push(new TanhLayer(def)); break;
-        case 'maxout': this.layers.push(new MaxoutLayer(def)); break;
-        case 'svm': this.layers.push(new SVMLayer(def)); break;
+          case 'maxout': this.layers.push(new MaxoutLayer(def)); break;
+          case 'upsample': this.layers.push(new UpsampleLayer(def)); break;
+          case 'svm': this.layers.push(new SVMLayer(def)); break;
         default: throw new Error('Unknown layer type: ' + def.type);
       }
     }
@@ -193,8 +195,9 @@ class Net {
       if(t==='softmax') { L = new SoftmaxLayer(); }
       if(t==='regression') { L = new RegressionLayer(); }
       if(t==='fc') { L = new FullyConnLayer(); }
-      if(t==='maxout') { L = new MaxoutLayer(); }
-      if(t==='svm') { L = new SVMLayer(); }
+        if(t==='maxout') { L = new MaxoutLayer(); }
+        if(t==='upsample') { L = new UpsampleLayer(); }
+        if(t==='svm') { L = new SVMLayer(); }
       if(typeof L === 'undefined') { throw new Error('Unknown layer type: ' + t); }
       L.fromJSON(Lj);
       this.layers.push(L);

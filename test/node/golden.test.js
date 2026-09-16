@@ -87,7 +87,7 @@ test('golden: the global namespace exposes the public API', () => {
   const names = ['Net', 'Vol', 'Trainer', 'SGDTrainer', 'MagicNet', 'augment',
     'img_to_vol', 'ConvLayer', 'FullyConnLayer', 'PoolLayer', 'InputLayer',
     'RegressionLayer', 'SoftmaxLayer', 'SVMLayer', 'TanhLayer', 'MaxoutLayer',
-    'ReluLayer', 'SigmoidLayer', 'DropoutLayer',
+    'ReluLayer', 'SigmoidLayer', 'DropoutLayer', 'UpsampleLayer',
     'LocalResponseNormalizationLayer', 'randf', 'randi', 'randn', 'zeros',
     'maxmin', 'randperm', 'weightedSample', 'arrUnique', 'arrContains',
     'getopt', 'assert'];

@@ -41,6 +41,7 @@ These are the `type` values recognized by `Net.makeLayers`:
 | `tanh` | `TanhLayer` | Tanh activation |
 | `maxout` | `MaxoutLayer` | Maxout activation |
 | `dropout` | `DropoutLayer` | Dropout regularization |
+| `upsample` | `UpsampleLayer` | Nearest-neighbor upsampling |
 | `lrn` | `LocalResponseNormalizationLayer` | Local response normalization |
 | `softmax` | `SoftmaxLayer` | Softmax classification loss |
 | `svm` | `SVMLayer` | Multiclass SVM (hinge) loss |
@@ -113,6 +114,15 @@ option on `fc`/`conv` rather than declared directly.
 | `drop_prob` | `0.5` | Probability of dropping a unit during training |
 
 Usually added implicitly via `drop_prob` on `fc`/`conv`.
+
+### `upsample`
+
+Nearest-neighbor upsampling: each input pixel is repeated into a `scale x scale` block. The output
+is `in_sx * scale` by `in_sy * scale` with the same depth. Only `mode: 'nearest'` is supported.
+
+| Option | Default | Notes |
+|---|---|---|
+| `scale` | — | Required positive integer upsampling factor |
 
 ### `lrn` (local response normalization)
 
