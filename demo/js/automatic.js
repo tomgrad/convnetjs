@@ -239,7 +239,7 @@
           t += 'Results based on ' + c.acc.length + ' folds:';
           t += 'best model in current batch (validation accuracy ' + mm.maxv + '):<br>';
           t += '<b>Net layer definitions:</b><br>';
-          t += JSON.stringify(cm.layer_defs);
+          t += JSON.stringify(cm.layers);
           t += '<br><b>Trainer definition:</b><br>';
           t += JSON.stringify(cm.trainer_def);
           t += '<br>';
@@ -252,7 +252,7 @@
           var cm = magicNet.evaluated_candidates[0];
           t += 'validation accuracy of best model so far, overall: ' + cm.accv / cm.acc.length + '<br>';
           t += '<b>Net layer definitions:</b><br>';
-          t += JSON.stringify(cm.layer_defs);
+          t += JSON.stringify(cm.layers);
           t += '<br><b>Trainer definition:</b><br>';
           t += JSON.stringify(cm.trainer_def);
           t += '<br>';

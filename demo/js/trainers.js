@@ -1,11 +1,11 @@
 
 var t = "\n\
 // lets use an example fully-connected 2-layer ReLU net\n\
-var layer_defs = [];\n\
-layer_defs.push({type:'input', out_sx:24, out_sy:24, out_depth:1});\n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'softmax', num_classes:10});\n\
+var layers = [];\n\
+layers.push({type:'input', out_sx:24, out_sy:24, out_depth:1});\n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'softmax', num_classes:10});\n\
 \n\
 // below fill out the trainer specs you wish to evaluate, and give them names for legend\n\
 var LR = 0.01; // learning rate\n\
@@ -106,14 +106,14 @@ $(window).load(function() {
 
 var reload = function() {
   
-  eval($("#layerdef").val()); // fills in trainer_spects[] array, and layer_defs
+  eval($("#layerdef").val()); // fills in trainer_spects[] array, and layers
 
   var N = trainer_defs.length;
   nets = [];
   trainers = [];
   for(var i=0;i<N;i++) {
     var net = new convnetjs.Net();
-    net.makeLayers(layer_defs);
+    net.makeLayers(layers);
     var trainer = new convnetjs.Trainer(net, trainer_defs[i]);
     nets.push(net); 
     trainers.push(trainer);

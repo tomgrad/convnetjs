@@ -36,7 +36,7 @@ class Net {
     }
     defs = cloned_defs;
 
-    // desugar layer_defs for adding activation, dropout layers etc
+    // desugar layers for adding activation, dropout layers etc
     const desugar = () => {
       const new_defs = [];
       for(let i=0;i<defs.length;i++) {

@@ -1,7 +1,7 @@
 # ConvNetJS Guide
 
 ConvNetJS is a small neural-network library for browsers and Node. Networks are described with an
-array of **layer definitions** and built with `net.makeLayers(layer_defs)`. All data flows through
+array of **layer definitions** and built with `net.makeLayers(layers)`. All data flows through
 `Vol`s — 3D volumes of numbers with a width (`sx`), height (`sy`) and depth (`depth`). Non-image
 inputs keep `sx = sy = 1`.
 
@@ -10,14 +10,14 @@ inputs keep `sx = sy = 1`.
 // In the browser, load build/convnet.js and use the global `convnetjs` instead.
 const convnetjs = require('convnetjs');
 
-const layer_defs = [
+const layers = [
   { type: 'input', out_sx: 1, out_sy: 1, out_depth: 2 },
   { type: 'fc', num_neurons: 20, activation: 'relu' },
   { type: 'softmax', num_classes: 10 }
 ];
 
 const net = new convnetjs.Net();
-net.makeLayers(layer_defs);
+net.makeLayers(layers);
 
 const x = new convnetjs.Vol([0.3, -0.5]);
 const probs = net.forward(x); // Vol with 10 probabilities
@@ -150,7 +150,7 @@ Both automatically insert a fully connected layer of size `num_classes` before t
 Automatically inserts a fully connected layer of that size before the loss. Training targets may be
 an array of values, a single number, or `{ dim, val }`.
 
-## How `layer_defs` are expanded
+## How `layers` are expanded
 
 `makeLayers` "desugars" the definitions before building the layers, so `net.layers` is usually
 longer than the array you passed:

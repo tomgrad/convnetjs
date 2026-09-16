@@ -75,22 +75,22 @@ class MagicNet {
     const num_classes = this.unique_labels.length;
 
     // sample network topology and hyperparameters
-    const layer_defs = [];
-    layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth: input_depth});
+    const layers = [];
+    layers.push({type:'input', out_sx:1, out_sy:1, out_depth: input_depth});
     const nl = weightedSample([0,1,2,3], [0.2, 0.3, 0.3, 0.2]); // prefer nets with 1,2 hidden layers
     for(let q=0;q<nl;q++) {
       const ni = randi(this.neurons_min, this.neurons_max);
       const act = ['tanh','maxout','relu'][randi(0,3)];
       if(randf(0,1)<0.5) {
         const dp = Math.random();
-        layer_defs.push({type:'fc', num_neurons: ni, activation: act, drop_prob: dp});
+        layers.push({type:'fc', num_neurons: ni, activation: act, drop_prob: dp});
       } else {
-        layer_defs.push({type:'fc', num_neurons: ni, activation: act});
+        layers.push({type:'fc', num_neurons: ni, activation: act});
       }
     }
-    layer_defs.push({type:'softmax', num_classes: num_classes});
+    layers.push({type:'softmax', num_classes: num_classes});
     const net = new Net();
-    net.makeLayers(layer_defs);
+    net.makeLayers(layers);
 
     // sample training hyperparameters
     const bs = randi(this.batch_size_min, this.batch_size_max); // batch size
@@ -112,7 +112,7 @@ class MagicNet {
     const cand = {};
     cand.acc = [];
     cand.accv = 0; // this will maintained as sum(acc) for convenience
-    cand.layer_defs = layer_defs;
+    cand.layers = layers;
     cand.trainer_def = trainer_def;
     cand.net = net;
     cand.trainer = trainer;
@@ -188,7 +188,7 @@ class MagicNet {
         for(let k=0;k<this.candidates.length;k++) {
           const c = this.candidates[k];
           const net = new Net();
-          net.makeLayers(c.layer_defs);
+          net.makeLayers(c.layers);
           const trainer = new Trainer(net, c.trainer_def);
           c.net = net;
           c.trainer = trainer;

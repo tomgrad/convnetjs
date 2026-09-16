@@ -62,11 +62,11 @@ var network_size = num_inputs*temporal_window + num_actions*temporal_window + nu
 // given an input state. Here we specify one explicitly the hard way
 // but user could also equivalently instead use opt.hidden_layer_sizes = [20,20]
 // to just insert simple relu hidden layers.
-var layer_defs = [];
-layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:network_size});
-layer_defs.push({type:'fc', num_neurons: 50, activation:'relu'});
-layer_defs.push({type:'fc', num_neurons: 50, activation:'relu'});
-layer_defs.push({type:'regression', num_neurons:num_actions});
+var layers = [];
+layers.push({type:'input', out_sx:1, out_sy:1, out_depth:network_size});
+layers.push({type:'fc', num_neurons: 50, activation:'relu'});
+layers.push({type:'fc', num_neurons: 50, activation:'relu'});
+layers.push({type:'regression', num_neurons:num_actions});
 
 // options for the Temporal Difference learner that trains the above net
 // by backpropping the temporal difference learning rule.
@@ -81,7 +81,7 @@ opt.learning_steps_total = 200000;
 opt.learning_steps_burnin = 3000;
 opt.epsilon_min = 0.05;
 opt.epsilon_test_time = 0.05;
-opt.layer_defs = layer_defs;
+opt.layers = layers;
 opt.tdtrainer_options = tdtrainer_options;
 
 var brain = new deepqlearn.Brain(num_inputs, num_actions, opt); // woohoo

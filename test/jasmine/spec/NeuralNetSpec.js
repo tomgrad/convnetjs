@@ -5,12 +5,12 @@ describe("Simple Fully-Connected Neural Net Classifier", function() {
   beforeEach(function() {
     net = new convnetjs.Net();
 
-    var layer_defs = [];
-    layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:2});
-    layer_defs.push({type:'fc', num_neurons:5, activation:'tanh'});
-    layer_defs.push({type:'fc', num_neurons:5, activation:'tanh'});
-    layer_defs.push({type:'softmax', num_classes:3});
-    net.makeLayers(layer_defs);
+    var layers = [];
+    layers.push({type:'input', out_sx:1, out_sy:1, out_depth:2});
+    layers.push({type:'fc', num_neurons:5, activation:'tanh'});
+    layers.push({type:'fc', num_neurons:5, activation:'tanh'});
+    layers.push({type:'softmax', num_classes:3});
+    net.makeLayers(layers);
 
     trainer = new convnetjs.SGDTrainer(net, 
           {learning_rate:0.0001, momentum:0.0, batch_size:1, l2_decay:0.0});

@@ -28,7 +28,7 @@ Browser Jasmine 2.0.0 remains at `test/jasmine/SpecRunner.html` (open after buil
 
 ## Layout
 - `src/*.js` are ES modules; layers are ES classes.
-- `src/convnet_net.js` — `Net.makeLayers` desugars `layer_defs`: activations become their own layers, `softmax`/`svm`/`regression` implicitly add an `fc` layer, and `drop_prob` inserts a dropout layer. `net.layers.length` is therefore larger than the input defs.
+- `src/convnet_net.js` — `Net.makeLayers` desugars `layers`: activations become their own layers, `softmax`/`svm`/`regression` implicitly add an `fc` layer, and `drop_prob` inserts a dropout layer. `net.layers.length` is therefore larger than the input defs.
 - `src/convnet_trainers.js` — SGD / Adagrad / Adadelta / Adam / windowgrad trainers.
 - `src/convnet_magicnet.js` — k-fold model/hyperparameter search wrapper.
 - `demo/js/` — demo logic (not built); demos also use vendored jQuery/pica.

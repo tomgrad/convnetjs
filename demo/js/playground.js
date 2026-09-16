@@ -10,13 +10,13 @@ var img_data = null;   // ImageData of the loaded MNIST batch
 var net = null;        // current Net, or null if the last build failed
 var current_k = 0;     // index of the current MNIST sample
 var current_x = null;  // current input Vol
-var layer_defs;        // populated by eval() of the text area
+var layers;            // populated by eval() of the text area
 
-var default_layerdefs = "\
-layer_defs = [];\n\
-layer_defs.push({type:'input', out_sx:28, out_sy:28, out_depth:1});\n\
-layer_defs.push({type:'conv', sx:3, filters:4, stride:1, pad:1, activation:'relu'});\n\
-layer_defs.push({type:'upsample', scale:2});\n\
+var default_layers = "\
+layers = [];\n\
+layers.push({type:'input', out_sx:28, out_sy:28, out_depth:1});\n\
+layers.push({type:'conv', sx:3, filters:4, stride:1, pad:1, activation:'relu'});\n\
+layers.push({type:'upsample', scale:2});\n\
 ";
 
 function setStatus(msg, isError) {
@@ -63,7 +63,7 @@ function buildAndRun() {
   try {
     eval(document.getElementById('layerdef').value);
     net = new convnetjs.Net();
-    net.makeLayers(layer_defs);
+    net.makeLayers(layers);
 
     var L0 = net.layers[0];
     if(L0.layer_type !== 'input' || L0.out_sx !== MNIST_DIM ||
@@ -156,6 +156,6 @@ function drawVol(canvas, A) {
 }
 
 $(function() {
-  document.getElementById('layerdef').value = default_layerdefs;
+  document.getElementById('layerdef').value = default_layers;
   loadData();
 });

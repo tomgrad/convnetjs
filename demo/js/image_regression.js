@@ -1,21 +1,21 @@
 
 var data, labels;
-var layer_defs, net, trainer;
+var layers, net, trainer;
 
 // create neural net
-var t = "layer_defs = [];\n\
-layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:2}); // 2 inputs: x, y \n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'fc', num_neurons:20, activation:'relu'});\n\
-layer_defs.push({type:'regression', num_neurons:3}); // 3 outputs: r,g,b \n\
+var t = "layers = [];\n\
+layers.push({type:'input', out_sx:1, out_sy:1, out_depth:2}); // 2 inputs: x, y \n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'fc', num_neurons:20, activation:'relu'});\n\
+layers.push({type:'regression', num_neurons:3}); // 3 outputs: r,g,b \n\
 \n\
 net = new convnetjs.Net();\n\
-net.makeLayers(layer_defs);\n\
+net.makeLayers(layers);\n\
 \n\
 trainer = new convnetjs.SGDTrainer(net, {learning_rate:0.01, momentum:0.9, batch_size:5, l2_decay:0.0});\n\
 ";

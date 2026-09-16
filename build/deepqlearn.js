@@ -68,35 +68,35 @@ var deepqlearn = deepqlearn || { REVISION: 'ALPHA' };
     this.net_window = new Array(this.window_size);
     
     // create [state -> value of all possible actions] modeling net for the value function
-    var layer_defs = [];
-    if(typeof opt.layer_defs !== 'undefined') {
+    var layers = [];
+    if(typeof opt.layers !== 'undefined') {
       // this is an advanced usage feature, because size of the input to the network, and number of
       // actions must check out. This is not very pretty Object Oriented programming but I can't see
       // a way out of it :(
-      layer_defs = opt.layer_defs;
-      if(layer_defs.length < 2) { console.log('TROUBLE! must have at least 2 layers'); }
-      if(layer_defs[0].type !== 'input') { console.log('TROUBLE! first layer must be input layer!'); }
-      if(layer_defs[layer_defs.length-1].type !== 'regression') { console.log('TROUBLE! last layer must be input regression!'); }
-      if(layer_defs[0].out_depth * layer_defs[0].out_sx * layer_defs[0].out_sy !== this.net_inputs) {
+      layers = opt.layers;
+      if(layers.length < 2) { console.log('TROUBLE! must have at least 2 layers'); }
+      if(layers[0].type !== 'input') { console.log('TROUBLE! first layer must be input layer!'); }
+      if(layers[layers.length-1].type !== 'regression') { console.log('TROUBLE! last layer must be input regression!'); }
+      if(layers[0].out_depth * layers[0].out_sx * layers[0].out_sy !== this.net_inputs) {
         console.log('TROUBLE! Number of inputs must be num_states * temporal_window + num_actions * temporal_window + num_states!');
       }
-      if(layer_defs[layer_defs.length-1].num_neurons !== this.num_actions) {
+      if(layers[layers.length-1].num_neurons !== this.num_actions) {
         console.log('TROUBLE! Number of regression neurons should be num_actions!');
       }
     } else {
       // create a very simple neural net by default
-      layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:this.net_inputs});
+      layers.push({type:'input', out_sx:1, out_sy:1, out_depth:this.net_inputs});
       if(typeof opt.hidden_layer_sizes !== 'undefined') {
         // allow user to specify this via the option, for convenience
         var hl = opt.hidden_layer_sizes;
         for(var k=0;k<hl.length;k++) {
-          layer_defs.push({type:'fc', num_neurons:hl[k], activation:'relu'}); // relu by default
+          layers.push({type:'fc', num_neurons:hl[k], activation:'relu'}); // relu by default
         }
       }
-      layer_defs.push({type:'regression', num_neurons:num_actions}); // value function output
+      layers.push({type:'regression', num_neurons:num_actions}); // value function output
     }
     this.value_net = new convnetjs.Net();
-    this.value_net.makeLayers(layer_defs);
+    this.value_net.makeLayers(layers);
     
     // and finally we need a Temporal Difference Learning trainer!
     var tdtrainer_options = {learning_rate:0.01, momentum:0.0, batch_size:64, l2_decay:0.01};
