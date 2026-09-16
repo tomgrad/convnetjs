@@ -5,11 +5,11 @@ import { zeros } from './convnet_util.js';
 // Local Response Normalization in window, along depths of volumes
 class LocalResponseNormalizationLayer {
   constructor(opt = {}) {
-    // required
-    this.k = opt.k;
-    this.n = opt.n;
-    this.alpha = opt.alpha;
-    this.beta = opt.beta;
+    // optional, with AlexNet-style defaults
+    this.k = typeof opt.k !== 'undefined' ? opt.k : 1;
+    this.n = typeof opt.n !== 'undefined' ? opt.n : 5;
+    this.alpha = typeof opt.alpha !== 'undefined' ? opt.alpha : 1e-4;
+    this.beta = typeof opt.beta !== 'undefined' ? opt.beta : 0.75;
 
     // computed
     this.out_sx = opt.in_sx;
@@ -64,6 +64,7 @@ class LocalResponseNormalizationLayer {
         for(let i=0;i<V.depth;i++) {
 
           const chain_grad = this.out_act.get_grad(x,y,i);
+          const ai = V.get(x,y,i);
           const S = this.S_cache_.get(x,y,i);
           const SB = Math.pow(S, this.beta);
           const SB2 = SB*SB;
@@ -71,7 +72,7 @@ class LocalResponseNormalizationLayer {
           // normalize in a window of size n
           for(let j=Math.max(0,i-n2);j<=Math.min(i+n2,V.depth-1);j++) {              
             const aj = V.get(x,y,j); 
-            let g = -aj*this.beta*Math.pow(S,this.beta-1)*this.alpha/this.n*2*aj;
+            let g = -ai*this.beta*Math.pow(S,this.beta-1)*this.alpha/this.n*2*aj;
             if(j===i) g+= SB;
             g /= SB2;
             g *= chain_grad;

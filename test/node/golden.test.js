@@ -64,6 +64,25 @@ test('golden: serialization shape and round-trip are unchanged', () => {
   assert.ok(Math.abs(out.w[0] - 0.7310585786300049) < 1e-12);
 });
 
+test('golden: conv/pool serialization round-trip preserves forward output', () => {
+  const net = new convnetjs.Net();
+  net.makeLayers([
+    { type: 'input', out_sx: 4, out_sy: 4, out_depth: 1 },
+    { type: 'conv', sx: 3, filters: 2, stride: 1, pad: 1, activation: 'relu' },
+    { type: 'pool', sx: 2, stride: 2 },
+    { type: 'softmax', num_classes: 2 }
+  ]);
+  const x = new convnetjs.Vol(4, 4, 1, 0.0);
+  for (let i = 0; i < x.w.length; i++) { x.w[i] = Math.sin(i); }
+
+  const before = Array.from(net.forward(x).w);
+  const restored = new convnetjs.Net();
+  restored.fromJSON(JSON.parse(JSON.stringify(net.toJSON())));
+  const after = Array.from(restored.forward(x).w);
+
+  assert.deepStrictEqual(after, before);
+});
+
 test('golden: the global namespace exposes the public API', () => {
   const names = ['Net', 'Vol', 'Trainer', 'SGDTrainer', 'MagicNet', 'augment',
     'img_to_vol', 'ConvLayer', 'FullyConnLayer', 'PoolLayer', 'InputLayer',

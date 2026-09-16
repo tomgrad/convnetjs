@@ -5,17 +5,20 @@
   "description": "Deep Learning in Javascript (browser + Node).",
   "type": "module",
   "main": "build/convnet.cjs",
+  "module": "build/convnet.mjs",
   "exports": {
     ".": {
+      "import": "./build/convnet.mjs",
       "require": "./build/convnet.cjs",
       "default": "./build/convnet.cjs"
     }
   },
   "scripts": {
-    "build": "npm run build:iife && npm run build:cjs && npm run build:min",
-    "build:iife": "esbuild src/index.js --bundle --format=iife --global-name=convnetjs --outfile=build/convnet.js",
-    "build:cjs": "esbuild src/index.js --bundle --format=cjs --outfile=build/convnet.cjs",
-    "build:min": "esbuild src/index.js --bundle --format=iife --global-name=convnetjs --minify --outfile=build/convnet-min.js",
+    "build": "npm run build:iife && npm run build:cjs && npm run build:esm && npm run build:min",
+    "build:iife": "esbuild src/index.js --bundle --format=iife --global-name=convnetjs --sourcemap --outfile=build/convnet.js",
+    "build:cjs": "esbuild src/index.js --bundle --format=cjs --sourcemap --outfile=build/convnet.cjs",
+    "build:esm": "esbuild src/index.js --bundle --format=esm --sourcemap --outfile=build/convnet.mjs",
+    "build:min": "esbuild src/index.js --bundle --format=iife --global-name=convnetjs --minify --sourcemap --outfile=build/convnet-min.js",
     "pretest": "npm run build",
     "test": "node --test test/node/"
   },

@@ -29,8 +29,10 @@ class DropoutLayer {
         else {this.dropped[i] = false;}
       }
     } else {
-      // scale the activations during prediction
-      for(let i=0;i<N;i++) { V2.w[i]*=this.drop_prob; }
+      // scale the activations during prediction to match the expected
+      // activation during training, where each unit is kept with
+      // probability (1 - drop_prob)
+      for(let i=0;i<N;i++) { V2.w[i]*=(1.0 - this.drop_prob); }
     }
     this.out_act = V2;
     return this.out_act; // dummy identity function for now

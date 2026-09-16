@@ -90,3 +90,47 @@ test('gradient check: maxout', () => {
   const rand = mulberry32(SEED);
   assert.ok(worstRelativeGradientError(makeNet, () => randomVol(1, 1, 4, rand), 0) < 1e-2);
 });
+
+test('gradient check: regression', () => {
+  const makeNet = () => {
+    const net = new convnetjs.Net();
+    net.makeLayers([
+      { type: 'input', out_sx: 1, out_sy: 1, out_depth: 2 },
+      { type: 'fc', num_neurons: 3, activation: 'tanh' },
+      { type: 'regression', num_neurons: 2 }
+    ]);
+    return net;
+  };
+  const rand = mulberry32(SEED);
+  assert.ok(worstRelativeGradientError(makeNet, () => randomVol(1, 1, 2, rand), [0.3, -0.2]) < 1e-2);
+});
+
+test('gradient check: svm', () => {
+  const makeNet = () => {
+    const net = new convnetjs.Net();
+    net.makeLayers([
+      { type: 'input', out_sx: 1, out_sy: 1, out_depth: 2 },
+      { type: 'fc', num_neurons: 3, activation: 'tanh' },
+      { type: 'svm', num_classes: 3 }
+    ]);
+    return net;
+  };
+  const rand = mulberry32(SEED);
+  assert.ok(worstRelativeGradientError(makeNet, () => randomVol(1, 1, 2, rand), 1) < 1e-2);
+});
+
+test('gradient check: local response normalization', () => {
+  // alpha is deliberately large so the cross-term of the LRN Jacobian is
+  // significant; with the default alpha=0.001 the error is masked.
+  const makeNet = () => {
+    const net = new convnetjs.Net();
+    net.makeLayers([
+      { type: 'input', out_sx: 1, out_sy: 1, out_depth: 3 },
+      { type: 'lrn', k: 1, n: 3, alpha: 0.8, beta: 0.75 },
+      { type: 'softmax', num_classes: 2 }
+    ]);
+    return net;
+  };
+  const rand = mulberry32(SEED);
+  assert.ok(worstRelativeGradientError(makeNet, () => randomVol(1, 1, 3, rand), 1) < 1e-2);
+});

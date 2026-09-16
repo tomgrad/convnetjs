@@ -23,3 +23,21 @@ test('fromJSON throws a clear error for an unknown layer type', () => {
     /Unknown layer type: bogus/
   );
 });
+
+test('makeLayers throws on an unsupported activation', () => {
+  const net = new convnetjs.Net();
+  assert.throws(() => net.makeLayers([
+    { type: 'input', out_sx: 1, out_sy: 1, out_depth: 2 },
+    { type: 'fc', num_neurons: 2, activation: 'bogus' },
+    { type: 'softmax', num_classes: 2 }
+  ]), /[Uu]nsupported activation: bogus/);
+});
+
+test('makeLayers throws on an unknown layer type', () => {
+  const net = new convnetjs.Net();
+  assert.throws(() => net.makeLayers([
+    { type: 'input', out_sx: 1, out_sy: 1, out_depth: 2 },
+    { type: 'bogus' },
+    { type: 'softmax', num_classes: 2 }
+  ]), /[Uu]nknown layer type: bogus/);
+});

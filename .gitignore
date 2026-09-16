@@ -1,6 +1,8 @@
 build/convnet.js
 build/convnet.cjs
+build/convnet.mjs
 build/convnet-min.js
+build/*.map
 node_modules/
 demo/mnist
 docs/superpowers/

@@ -22,3 +22,10 @@ test('the IIFE build exposes the global convnetjs object', () => {
   }
   assert.strictEqual(sandbox.convnetjs.REVISION, 'ALPHA');
 });
+
+test('the ESM build exposes named exports', async () => {
+  const mod = await import('../../build/convnet.mjs');
+  assert.strictEqual(typeof mod.Net, 'function');
+  assert.strictEqual(typeof mod.Vol, 'function');
+  assert.strictEqual(mod.REVISION, 'ALPHA');
+});

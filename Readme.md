@@ -10,7 +10,7 @@ ConvNetJS is a Javascript implementation of Neural networks, together with nice 
 
 For much more information, see the main page at [convnetjs.com](http://convnetjs.com)
 
-**Note**: I am not actively maintaining ConvNetJS anymore because I simply don't have time. I think the npm repo might not work at this point.
+**Note**: This is a local, unmaintained fork. The package is `private` and is not published to npm; build it from `src/` as described below.
 
 ## Online Demos
 - [Convolutional Neural Network on MNIST digits](http://cs.stanford.edu/~karpathy/convnetjs/demo/mnist.html)
@@ -106,7 +106,7 @@ The library is written as ES modules in `src/` and bundled with [esbuild](https:
     $ npm install
     $ npm run build
 
-This produces `build/convnet.js` (a global `convnetjs` build used by the demos), `build/convnet.cjs` (CommonJS), and `build/convnet-min.js` (minified).
+This produces `build/convnet.js` (a global `convnetjs` build used by the demos), `build/convnet.cjs` (CommonJS), `build/convnet.mjs` (ESM), and `build/convnet-min.js` (minified). Each bundle has a `.map` sourcemap alongside it.
 
 ## Testing
 Requires Node 18+. Build first, then run the headless suite:
@@ -120,10 +120,17 @@ or, without npm's test wrapper:
 A browser-based Jasmine suite (including a numerical gradient check) lives at `test/jasmine/SpecRunner.html`.
 
 ## Use in Node
-The library is also available on *node.js*:
+This checkout is not published to npm (it is marked `private`). Build it locally, then import the generated bundle:
 
-1. Install it: `$ npm install convnetjs`
-2. Use it: `var convnetjs = require("convnetjs");`
+    $ npm install
+    $ npm run build
+
+```javascript
+// CommonJS
+const convnetjs = require('./build/convnet.cjs');
+// or ESM
+import * as convnetjs from './build/convnet.mjs';
+```
 
 ## License
 MIT

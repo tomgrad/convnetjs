@@ -37,3 +37,41 @@ test('adam takes a first step of roughly learning_rate against a unit gradient',
   assert.ok(Math.abs(net.layers[1].biases.w[0] - 0.1) < 1e-4,
     'bias step was ' + net.layers[1].biases.w[0]);
 });
+
+test('regression training accepts number and Float64Array targets without warning', () => {
+  const original = console.log;
+  const logged = [];
+  console.log = (...args) => { logged.push(args.join(' ')); };
+  try {
+    const net = new convnetjs.Net();
+    net.makeLayers([
+      { type: 'input', out_sx: 1, out_sy: 1, out_depth: 1 },
+      { type: 'regression', num_neurons: 1 }
+    ]);
+    const trainer = new convnetjs.Trainer(net, { learning_rate: 0.01, batch_size: 1 });
+
+    trainer.train(new convnetjs.Vol([1.0]), 1.0); // single-number target
+    trainer.train(new convnetjs.Vol([1.0]), new Float64Array([1.0]));
+  } finally {
+    console.log = original;
+  }
+  assert.deepStrictEqual(logged, []);
+});
+
+test('regression training warns for an unsupported target type', () => {
+  const original = console.log;
+  const logged = [];
+  console.log = (...args) => { logged.push(args.join(' ')); };
+  try {
+    const net = new convnetjs.Net();
+    net.makeLayers([
+      { type: 'input', out_sx: 1, out_sy: 1, out_depth: 1 },
+      { type: 'regression', num_neurons: 1 }
+    ]);
+    const trainer = new convnetjs.Trainer(net, { learning_rate: 0.01, batch_size: 1 });
+    trainer.train(new convnetjs.Vol([1.0]), 'not-a-target');
+  } finally {
+    console.log = original;
+  }
+  assert.ok(logged.some((m) => m.includes('regression')), 'expected a warning, got ' + JSON.stringify(logged));
+});

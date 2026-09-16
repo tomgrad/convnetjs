@@ -118,10 +118,10 @@ Usually added implicitly via `drop_prob` on `fc`/`conv`.
 
 | Option | Default | Notes |
 |---|---|---|
-| `k` | — | Required |
-| `n` | — | Required. Window size; should be odd |
-| `alpha` | — | Required |
-| `beta` | — | Required |
+| `k` | `1` | Additive constant |
+| `n` | `5` | Window size; should be odd |
+| `alpha` | `1e-4` | Normalization scale |
+| `beta` | `0.75` | Exponent |
 
 ### `softmax` / `svm`
 

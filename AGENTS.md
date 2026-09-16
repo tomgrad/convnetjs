@@ -10,10 +10,11 @@ Install the dev dependency once, then build:
     $ npm install
     $ npm run build
 
-This produces three generated, uncommitted outputs:
+This produces four generated, uncommitted outputs (each with a `.map` sourcemap):
 
 - `build/convnet.js` — IIFE bundle exposing the global `convnetjs` (used by demos).
 - `build/convnet.cjs` — CommonJS bundle (used by Node/tests).
+- `build/convnet.mjs` — ESM bundle (used by `import` consumers; the `import` condition in `package.json`).
 - `build/convnet-min.js` — minified IIFE bundle.
 
 `src/index.js` is the bundle entry; esbuild resolves the module graph, so there is no manual file order. To add a source file, import it from `src/index.js`.
