@@ -4,7 +4,7 @@ var ss = 50.0; // scale for drawing
 
 // create neural net
 var layer_defs, net, trainer;
-var t = "\n\
+var t = "\
 layer_defs = [];\n\
 layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:2});\n\
 layer_defs.push({type:'fc', num_neurons:6, activation: 'tanh'});\n\
@@ -14,7 +14,7 @@ layer_defs.push({type:'softmax', num_classes:2});\n\
 net = new convnetjs.Net();\n\
 net.makeLayers(layer_defs);\n\
 \n\
-trainer = new convnetjs.SGDTrainer(net, {learning_rate:0.01, momentum:0.1, batch_size:10, l2_decay:0.001});\n\
+trainer = new convnetjs.SGDTrainer(net, {learning_rate:0.01, momentum:0.1, batch_size:10, l2_decay:0.001});\
 ";
 
 function reload() {
@@ -39,7 +39,7 @@ function updateLix(newlix) {
 
   $("#cyclestatus").html('drawing neurons ' + d0 + ' and ' + d1 + ' of layer with index ' + lix + ' (' + net.layers[lix].layer_type + ')');
 }
- 
+
 
 function myinit() { }
 
@@ -53,7 +53,7 @@ function random_data(){
 }
 
 function original_data(){
-  
+
   data = [];
   labels = [];
   data.push([-0.4326  ,  1.1909 ]); labels.push(1);
@@ -109,7 +109,7 @@ function spiral_data() {
   }
   N = data.length;
 }
- 
+
 function update(){
   // forward prop the data
 
@@ -129,7 +129,7 @@ function update(){
 
   var end = new Date().getTime();
   var time = end - start;
-      
+
   //console.log('loss = ' + avloss + ', 100 cycles through data in ' + time + 'ms');
 }
 
@@ -146,23 +146,23 @@ var lix = 4; // layer id to track first 2 neurons of
 var d0 = 0; // first dimension to show visualized
 var d1 = 1; // second dimension to show visualized
 function draw(){
-    
+
     ctx.clearRect(0,0,WIDTH,HEIGHT);
-    
+
     var netx = new convnetjs.Vol(1,1,2);
     // draw decisions in the grid
     var density= 5.0;
     var gridstep = 2;
     var gridx = [];
     var gridy = [];
-    var gridl = []; 
+    var gridl = [];
     for(var x=0.0, cx=0; x<=WIDTH; x+= density, cx++) {
       for(var y=0.0, cy=0; y<=HEIGHT; y+= density, cy++) {
         //var dec= svm.marginOne([(x-WIDTH/2)/ss, (y-HEIGHT/2)/ss]);
         netx.w[0] = (x-WIDTH/2)/ss;
         netx.w[1] = (y-HEIGHT/2)/ss;
         var a = net.forward(netx, false);
-        
+
         if(a.w[0] > a.w[1]) ctx.fillStyle = 'rgb(250, 150, 150)';
         else ctx.fillStyle = 'rgb(150, 250, 150)';
 
@@ -199,7 +199,7 @@ function draw(){
     var n = Math.floor(Math.sqrt(gridx.length)); // size of grid. Should be fine?
     var ng = gridx.length;
     var c = 0; // counter
-    visctx.beginPath() 
+    visctx.beginPath()
     for(var x=0;x<n;x++) {
       for(var y=0;y<n;y++) {
 
@@ -234,7 +234,7 @@ function draw(){
           visctx.moveTo(xraw1, yraw1);
           visctx.lineTo(xraw2, yraw2);
         }
- 
+
       }
     }
     visctx.stroke();
@@ -243,10 +243,10 @@ function draw(){
     ctx.strokeStyle = 'rgb(0,0,0)';
     ctx.lineWidth = 1;
     for(var i=0;i<N;i++) {
-      
+
       if(labels[i]==1) ctx.fillStyle = 'rgb(100,200,100)';
       else ctx.fillStyle = 'rgb(200,100,100)';
-      
+
       drawCircle(data[i][0]*ss+WIDTH/2, data[i][1]*ss+HEIGHT/2, 5.0);
 
       // also draw transformed data points while we're at it
@@ -258,7 +258,7 @@ function draw(){
       if(labels[i]==1) visctx.fillStyle = 'rgb(100,200,100)';
       else visctx.fillStyle = 'rgb(200,100,100)';
       visctx.beginPath();
-      visctx.arc(xt, yt, 5.0, 0, Math.PI*2, true); 
+      visctx.arc(xt, yt, 5.0, 0, Math.PI*2, true);
       visctx.closePath();
       visctx.stroke();
       visctx.fill();
@@ -266,7 +266,7 @@ function draw(){
 }
 
 function mouseClick(x, y, shiftPressed, ctrlPressed){
-  
+
   // x and y transformed to data space coordinates
   var xt = (x-WIDTH/2)/ss;
   var yt = (y-HEIGHT/2)/ss;
