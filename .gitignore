@@ -4,6 +4,8 @@ build/convnet.mjs
 build/convnet-min.js
 build/*.map
 node_modules/
-demo/mnist
-demo/cifar10
+demo/mnist/*
+!demo/mnist/unpack_mnist.py
+demo/cifar10/*
+!demo/cifar10/convert.py
 docs/superpowers/
