@@ -5,4 +5,5 @@ build/convnet-min.js
 build/*.map
 node_modules/
 demo/mnist
+demo/cifar10
 docs/superpowers/
